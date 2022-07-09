@@ -1,10 +1,19 @@
 import { Button, Container } from "react-bootstrap";
+import { IShoppingCartContext } from "../interfaces";
 
-export interface IChooseAmountProps {
+export interface IChooseAmountProps
+  extends Omit<IShoppingCartContext, "getItemQuantity"> {
+  id: number;
   quantity: number;
 }
 
-export default function ChooseAmount({ quantity }: IChooseAmountProps) {
+export default function ChooseAmount({
+  id,
+  quantity,
+  increaseCartQuantity,
+  decreaseCartQuantity,
+  removeFromCart,
+}: IChooseAmountProps) {
   return (
     <Container
       className="d-flex align-items-center flex-column"
@@ -14,13 +23,15 @@ export default function ChooseAmount({ quantity }: IChooseAmountProps) {
         className="d-flex align-items-center justify-items-center"
         style={{ gap: ".5rem" }}
       >
-        <Button>-</Button>
+        <Button onClick={() => decreaseCartQuantity(id)}>-</Button>
         <aside>
           <span className="fs-3">{quantity}</span> in cart
         </aside>
-        <Button>+</Button>
+        <Button onClick={() => increaseCartQuantity(id)}>+</Button>
       </div>
-      <Button variant="danger">Remove</Button>
+      <Button onClick={() => removeFromCart(id)} variant="danger">
+        Remove
+      </Button>
     </Container>
   );
 }

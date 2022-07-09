@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Button, Card } from "react-bootstrap";
+import { useShoppingCart } from "../context/ShoppingCartContext";
 import { IProduct } from "../interfaces";
 import { formatCurrency } from "../utilities";
 import ChooseAmount from "./ChooseAmount";
@@ -7,8 +8,15 @@ import ChooseAmount from "./ChooseAmount";
 interface IProductProps extends IProduct {}
 
 export default function Product({ id, name, price, imgUrl }: IProductProps) {
+  const {
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+  } = useShoppingCart();
+  const quantity = getItemQuantity(id);
   const formattedPrice = useMemo(() => formatCurrency(price), [price]);
-  const quantity = 1;
+
   return (
     <Card className="h-100">
       <Card.Img variant="top" src={imgUrl} height="200px" />
@@ -19,9 +27,17 @@ export default function Product({ id, name, price, imgUrl }: IProductProps) {
         </Card.Title>
         <div className="mt-auto">
           {quantity === 0 ? (
-            <Button>+ Add To Cart</Button>
+            <Button className="w-100" onClick={() => increaseCartQuantity(id)}>
+              + Add To Cart
+            </Button>
           ) : (
-            <ChooseAmount quantity={quantity} />
+            <ChooseAmount
+              id={id}
+              quantity={quantity}
+              increaseCartQuantity={increaseCartQuantity}
+              decreaseCartQuantity={decreaseCartQuantity}
+              removeFromCart={removeFromCart}
+            />
           )}
         </div>
       </Card.Body>
