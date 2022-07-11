@@ -3,6 +3,9 @@ import { ICartItem } from "../interfaces";
 
 export function useCart(initialState = []) {
   const [cartItems, setCartItems] = useState<ICartItem[]>(initialState);
+  const [isToggledCart, setisToggledCart] = useState(false);
+
+  const toggleCart = () => setisToggledCart((prevState) => !prevState);
 
   const findItem = (id: number) =>
     cartItems.find((item: ICartItem) => item.id === id);
@@ -45,10 +48,19 @@ export function useCart(initialState = []) {
     });
   }
 
+  const cartQuantity = cartItems.reduce(
+    (quantity: number, item: ICartItem) => item.quantity + quantity,
+    0,
+  );
+
   return {
     getItemQuantity,
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
+    cartItems,
+    cartQuantity,
+    toggleCart,
+    isToggledCart,
   };
 }

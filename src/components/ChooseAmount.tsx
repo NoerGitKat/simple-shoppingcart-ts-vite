@@ -2,7 +2,10 @@ import { Button, Container } from "react-bootstrap";
 import { IShoppingCartContext } from "../interfaces";
 
 export interface IChooseAmountProps
-  extends Omit<IShoppingCartContext, "getItemQuantity"> {
+  extends Pick<
+    IShoppingCartContext,
+    "increaseCartQuantity" | "decreaseCartQuantity" | "removeFromCart"
+  > {
   id: number;
   quantity: number;
 }

@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import ShoppingCart from "../components/ShoppingCart";
 import { useCart } from "../hooks";
 import { IContext, IShoppingCartContext } from "../interfaces";
 
@@ -14,6 +15,10 @@ export function ShoppingCartProvider({ children }: IContext) {
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
+    cartItems,
+    cartQuantity,
+    toggleCart,
+    isToggledCart,
   } = useCart();
 
   return (
@@ -23,9 +28,14 @@ export function ShoppingCartProvider({ children }: IContext) {
         increaseCartQuantity,
         decreaseCartQuantity,
         removeFromCart,
+        cartItems,
+        cartQuantity,
+        toggleCart,
+        isToggledCart,
       }}
     >
       {children}
+      <ShoppingCart />
     </ShoppingCartContext.Provider>
   );
 }

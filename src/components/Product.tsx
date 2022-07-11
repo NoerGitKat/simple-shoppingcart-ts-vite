@@ -13,6 +13,9 @@ export default function Product({ id, name, price, imgUrl }: IProductProps) {
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
+    cartItems,
+    cartQuantity,
+    toggleCart,
   } = useShoppingCart();
   const quantity = getItemQuantity(id);
   const formattedPrice = useMemo(() => formatCurrency(price), [price]);
