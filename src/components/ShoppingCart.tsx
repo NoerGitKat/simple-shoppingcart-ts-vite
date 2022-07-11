@@ -9,10 +9,12 @@ export interface IShoppingCartProps {}
 
 export default function ShoppingCart(props: IShoppingCartProps) {
   const { isToggledCart, toggleCart, cartItems } = useShoppingCart();
+  
   const totalPrice = cartItems.reduce((total, cartItem: ICartItem) => {
     const foundItem = db.find((item) => item.id === cartItem.id);
     return total + (foundItem?.price || 0) * cartItem.quantity;
   }, 0);
+
   return (
     <Offcanvas show={isToggledCart} onHide={toggleCart} placement="end">
       <Offcanvas.Header closeButton>
